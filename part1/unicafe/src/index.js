@@ -14,17 +14,35 @@ const Button = ({ onClick, text }) => {
   );
 };
 
+const Statistic = (props) => {
+  const { text, value, isPercentage = false } = props;
+
+  if (isPercentage) {
+    return (
+      <div>
+        <p>{text} {value} %</p>
+      </div>
+    );
+  }
+
+  return (
+    <div>
+      <p>{text} {value}</p>
+    </div>
+  );
+};
+
 const Statistics = (props) => {
   const { good, neutral, bad } = props;
 
   const total = good + neutral + bad;
 
-  const average = () => total / 3;
+  const average = () => {
+    const score = (good * 1) + (neutral * 0) + (bad * -1);
+    return score / total;
+  };
 
   const positivePercentage = () => {
-    if (good === 0) {
-      return 0;
-    }
     return (good / total) * 100;
   };
 
@@ -38,12 +56,12 @@ const Statistics = (props) => {
 
   return (
     <div>
-      <p>good {good}</p>
-      <p>neutral {neutral}</p>
-      <p>bad {bad}</p>
-      <p>all {total}</p>
-      <p>average {average()}</p>
-      <p>positive {positivePercentage()} %</p>
+      <Statistic text='good' value={good} />
+      <Statistic text='neutral' value={neutral} />
+      <Statistic text='bad' value={bad} />
+      <Statistic text='all' value={total} />
+      <Statistic text='average' value={average()} />
+      <Statistic text='positive' value={positivePercentage()} isPercentage />
     </div>
   );
 };
