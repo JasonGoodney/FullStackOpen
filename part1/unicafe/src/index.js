@@ -19,16 +19,16 @@ const Statistic = (props) => {
 
   if (isPercentage) {
     return (
-      <div>
-        <p>{text} {value} %</p>
-      </div>
+      <tr>
+        <td>{text}</td> <td>{value} %</td>
+      </tr>
     );
   }
 
   return (
-    <div>
-      <p>{text} {value}</p>
-    </div>
+    <tr>
+      <td>{text}</td> <td>{value}</td>
+    </tr>
   );
 };
 
@@ -43,6 +43,9 @@ const Statistics = (props) => {
   };
 
   const positivePercentage = () => {
+    if (good === 0) {
+      return 0;
+    }
     return (good / total) * 100;
   };
 
@@ -55,14 +58,14 @@ const Statistics = (props) => {
   }
 
   return (
-    <div>
+    <table>
       <Statistic text='good' value={good} />
       <Statistic text='neutral' value={neutral} />
       <Statistic text='bad' value={bad} />
       <Statistic text='all' value={total} />
       <Statistic text='average' value={average()} />
       <Statistic text='positive' value={positivePercentage()} isPercentage />
-    </div>
+    </table>
   );
 };
 
