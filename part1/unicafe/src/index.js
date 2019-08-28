@@ -14,7 +14,17 @@ const Button = ({ onClick, text }) => {
   );
 };
 
-const StatisticLabel = ({ text, counter }) => <p>{text} {counter}</p>;
+const StatisticLabel = ({ text, statistic, isPercentage }) => {
+  if (isPercentage) {
+    return (
+      <p>{text} {statistic} %</p>
+    );
+  }
+
+  return (
+    <p>{text} {statistic}</p>
+  );
+};
 
 const App = () => {
   const [good, setGood] = useState(0);
@@ -40,9 +50,18 @@ const App = () => {
       <Button text='neutral' onClick={handleNeutralClick} />
       <Button text='bad' onClick={handleBadClick} />
       <Title text='statistics' />
-      <StatisticLabel text='good' counter={good} />
-      <StatisticLabel text='neutral' counter={neutral} />
-      <StatisticLabel text='bad' counter={bad} />
+      <StatisticLabel text='good' statistic={good} />
+      <StatisticLabel text='neutral' statistic={neutral} />
+      <StatisticLabel text='bad' statistic={bad} />
+      <StatisticLabel text='all'
+        statistic={good + neutral + bad}
+      />
+      <StatisticLabel text='average'
+        statistic={(good + neutral + bad) / 3}
+      />
+      <StatisticLabel text='positive' isPercentage
+        statistic={(good / (good + neutral + bad)) * 100}
+      />
     </div>
   );
 };
