@@ -1,4 +1,7 @@
 import React, { useState } from 'react';
+import Filter from './components/Filter';
+import Persons from './components/Persons';
+import PersonForm from './components/PersonForm';
 
 const App = () => {
   const [persons, setPersons] = useState([
@@ -30,6 +33,7 @@ const App = () => {
     setPersons(persons.concat(personObject));
     setNewName('');
     setNewNumber('');
+    console.log('number', newNumber);
   };
 
   const handleNewNameChange = (event) => {
@@ -44,38 +48,27 @@ const App = () => {
     setSearchQuery(event.target.value);
   };
 
-  const rows = () => {
-    return persons
-      .filter((person) =>
-        person.name.toLowerCase().includes(searchQuery.toLowerCase()))
-      .map((person) =>
-        <p key={person.name}>
-          {person.name} {person.number}
-        </p>
-      );
-  };
-
   return (
     <div>
       <div>debug: {searchQuery}</div>
       <h2>Phonebook</h2>
-      <div>
-        filter shown with <input value={searchQuery} onChange={handleSearchQueryChange} />
-      </div>
+      <Filter
+        searchQuery={searchQuery}
+        onChange={handleSearchQueryChange}
+      />
       <h2>Add a new</h2>
-      <form onSubmit={addName}>
-        <div>
-          name: <input value={newName} onChange={handleNewNameChange} />
-        </div>
-        <div>
-          number: <input value={newNumber} onChange={handleNewNumberChange} />
-        </div>
-        <div>
-          <button type='submit'>add</button>
-        </div>
-      </form>
+      <PersonForm
+        onSubmit={addName}
+        newName={newName}
+        handleNewNameChange={handleNewNameChange}
+        newNumber={newNumber}
+        handleNewNumberChange={handleNewNumberChange}
+      />
       <h2>Numbers</h2>
-      {rows()}
+      <Persons
+        persons={persons}
+        searchQuery={searchQuery}
+      />
     </div>
   );
 };
