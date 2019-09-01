@@ -6,8 +6,8 @@ const Country = ({ country }) => {
   return (
     <div>
       <h1>{name}</h1>
-      <p>capital {capital}</p>
-      <p>population {population}</p>
+      <div>capital {capital}</div>
+      <div>population {population}</div>
       <h3>languages</h3>
       <ul>
         {
