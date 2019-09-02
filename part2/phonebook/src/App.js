@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import Filter from './components/Filter';
-import Persons from './components/Persons';
+import Person from './components/Person';
 import PersonForm from './components/PersonForm';
 import personService from './services/persons';
 
@@ -56,6 +55,34 @@ const App = () => {
     setSearchQuery(event.target.value);
   };
 
+  const removePerson = person => {
+    if (window.confirm(`Delete ${person.name}`)) {
+      personService
+        .remove(person.id)
+        .then(returnedPerson => {
+          const copy = [...persons];
+          const index = persons.indexOf(person);
+          if (index !== -1) {
+            copy.splice(index, 1);
+            setPersons(copy);
+          }
+        });
+    }
+  };
+
+  const personRows = () => {
+    return persons
+      .filter((person) =>
+        person.name.toLowerCase().includes(searchQuery.toLowerCase()))
+      .map((person) =>
+        <Person
+          key={person.id}
+          person={person}
+          removePerson={() => removePerson(person)}
+        />
+      );
+  };
+
   return (
     <div>
       <div>debug: {searchQuery}</div>
@@ -73,10 +100,12 @@ const App = () => {
         handleNewNumberChange={handleNewNumberChange}
       />
       <h2>Numbers</h2>
-      <Persons
+      {/* <Persons
         persons={persons}
         searchQuery={searchQuery}
-      />
+        removePerson={() => persons.map(person => removePerson(person.id))}
+      /> */}
+      {personRows()}
     </div>
   );
 };

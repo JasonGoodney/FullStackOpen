@@ -11,24 +11,19 @@
       "id": 2
     },
     {
-      "name": "Dan Abramov",
-      "number": "12-43-234345",
-      "id": 3
-    },
-    {
-      "name": "Mary Poppendieck",
-      "number": "39-23-6423122",
-      "id": 4
-    },
-    {
-      "name": "Bill Gates",
-      "number": "23-54-4534525",
-      "id": 5
-    },
-    {
       "name": "chips ahoy",
       "number": "235235252",
       "id": 6
+    },
+    {
+      "name": "ham burger",
+      "number": "5252352352",
+      "id": 7
+    },
+    {
+      "name": "gator ade",
+      "number": "32525252525",
+      "id": 9
     }
   ]
 }
