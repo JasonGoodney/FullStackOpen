@@ -1,34 +1,19 @@
 {
   "persons": [
     {
-      "name": "Arto Hellas",
-      "number": "040-123456",
-      "id": 1
-    },
-    {
-      "name": "Ada Lovelace",
-      "number": "39-44-5323523",
-      "id": 2
-    },
-    {
       "name": "chips ahoy",
-      "number": "67878",
+      "number": "898349583",
       "id": 6
     },
     {
-      "name": "ham burger",
-      "number": "5252352352",
+      "name": "oreo",
+      "number": "8953892358",
       "id": 7
     },
     {
-      "name": "gator ade",
-      "number": "85928352",
+      "name": "thin mint",
+      "number": "902359802",
       "id": 9
-    },
-    {
-      "name": "oreo",
-      "number": "241489",
-      "id": 10
     }
   ]
 }

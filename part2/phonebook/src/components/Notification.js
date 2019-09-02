@@ -1,7 +1,7 @@
 import React from 'react';
 
-const Notification = ({ message, isError = false }) => {
-  if (message === null) {
+const Notification = ({ message }) => {
+  if (message.text === null) {
     return null;
   }
 
@@ -26,8 +26,8 @@ const Notification = ({ message, isError = false }) => {
   };
 
   return (
-    <div style={isError ? errorStyle : successStyle}>
-      {message}
+    <div style={message.isError ? errorStyle : successStyle}>
+      {message.text}
     </div>
   );
 };

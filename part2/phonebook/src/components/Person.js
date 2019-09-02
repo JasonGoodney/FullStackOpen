@@ -9,7 +9,7 @@ const Person = ({ person, removePerson }) => {
         {person.name} {person.number}
       </p>
       <button
-        style={{ display: 'inline' }}
+        style={{ display: 'inline', marginLeft: 8 }}
         onClick={removePerson}
       >delete</button>
     </div>

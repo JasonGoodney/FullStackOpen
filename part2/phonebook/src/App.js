@@ -10,7 +10,10 @@ const App = () => {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
-  const [notificationMessage, setNotificationMessage] = useState(null);
+  const [notificationMessage, setNotificationMessage] = useState({
+    text: null,
+    isError: false
+  });
 
   useEffect(() => {
     personService
@@ -20,6 +23,7 @@ const App = () => {
       });
   }, []);
 
+  /// CRUD functions
   const addName = (event) => {
     event.preventDefault();
 
@@ -36,10 +40,6 @@ const App = () => {
       if (window.confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
         const person = persons.find(p => p.name === newName);
         updatePerson(person.id);
-        setNewName('');
-        setNewNumber('');
-        setNotificationMessage(`Updated ${person.name}`);
-        runNotification();
       }
       return;
     }
@@ -50,21 +50,8 @@ const App = () => {
         setPersons(persons.concat(returnedPerson));
         setNewName('');
         setNewNumber('');
-        setNotificationMessage(`Added ${returnedPerson.name}`);
-        runNotification();
+        displayMessage(`Added ${returnedPerson.name}`);
       });
-  };
-
-  const handleNewNameChange = (event) => {
-    setNewName(event.target.value);
-  };
-
-  const handleNewNumberChange = (event) => {
-    setNewNumber(event.target.value);
-  };
-
-  const handleSearchQueryChange = (event) => {
-    setSearchQuery(event.target.value);
   };
 
   const removePerson = person => {
@@ -78,6 +65,7 @@ const App = () => {
             copy.splice(index, 1);
             setPersons(copy);
           }
+          displayMessage(`Deleted ${person.name}`);
         });
     }
   };
@@ -86,8 +74,6 @@ const App = () => {
     const person = persons.find(p => p.id === id);
     const updatedPerson = { ...person, number: newNumber };
 
-    console.log('object', updatePerson);
-
     personService
       .update(id, updatedPerson)
       .then(returnedPerson => {
@@ -95,15 +81,30 @@ const App = () => {
         setPersons(
           persons.map(p => p.id !== id ? p : returnedPerson)
         );
+        setNewName('');
+        setNewNumber('');
+        displayMessage(`Updated ${returnedPerson.name}`);
       })
-      .catch(error => {
-        window.alert(
-          `${error}: ${updatedPerson.name} was already deleted from the server`
-        );
-        setPersons(person.filter(p => p.id !== id));
+      .catch(() => {
+        displayMessage(`Information on ${person.name} has already been removed from server`, true);
+        setPersons(persons.filter(p => p.id !== id));
       });
   };
 
+  /// Event handlers
+  const handleNewNameChange = (event) => {
+    setNewName(event.target.value);
+  };
+
+  const handleNewNumberChange = (event) => {
+    setNewNumber(event.target.value);
+  };
+
+  const handleSearchQueryChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  /// UI helpers
   const personRows = () => {
     return persons
       .filter((person) =>
@@ -117,12 +118,23 @@ const App = () => {
       );
   };
 
+  const displayMessage = (text, isError = false) => {
+    setNotificationMessage({
+      ...notificationMessage,
+      text: text,
+      isError: isError
+    });
+
+    runNotification();
+  };
+
   const runNotification = () => {
     setTimeout(() => {
-      setNotificationMessage(null);
+      setNotificationMessage({ ...notificationMessage, text: null, isError: false });
     }, 5000);
   };
 
+  /// JSX
   return (
     <div>
       <h2>Phonebook</h2>
