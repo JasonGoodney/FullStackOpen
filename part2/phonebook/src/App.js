@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Filter from './components/Filter';
 import Person from './components/Person';
 import PersonForm from './components/PersonForm';
+import Notification from './components/Notification';
 import personService from './services/persons';
 
 const App = () => {
@@ -9,6 +10,7 @@ const App = () => {
   const [newName, setNewName] = useState('');
   const [newNumber, setNewNumber] = useState('');
   const [searchQuery, setSearchQuery] = useState('');
+  const [notificationMessage, setNotificationMessage] = useState(null);
 
   useEffect(() => {
     personService
@@ -36,6 +38,8 @@ const App = () => {
         updatePerson(person.id);
         setNewName('');
         setNewNumber('');
+        setNotificationMessage(`Updated ${person.name}`);
+        runNotification();
       }
       return;
     }
@@ -46,6 +50,8 @@ const App = () => {
         setPersons(persons.concat(returnedPerson));
         setNewName('');
         setNewNumber('');
+        setNotificationMessage(`Added ${returnedPerson.name}`);
+        runNotification();
       });
   };
 
@@ -111,10 +117,16 @@ const App = () => {
       );
   };
 
+  const runNotification = () => {
+    setTimeout(() => {
+      setNotificationMessage(null);
+    }, 5000);
+  };
+
   return (
     <div>
-      <div>debug: {searchQuery}</div>
       <h2>Phonebook</h2>
+      <Notification message={notificationMessage} />
       <Filter
         searchQuery={searchQuery}
         onChange={handleSearchQueryChange}
@@ -128,11 +140,6 @@ const App = () => {
         handleNewNumberChange={handleNewNumberChange}
       />
       <h2>Numbers</h2>
-      {/* <Persons
-        persons={persons}
-        searchQuery={searchQuery}
-        removePerson={() => persons.map(person => removePerson(person.id))}
-      /> */}
       {personRows()}
     </div>
   );
