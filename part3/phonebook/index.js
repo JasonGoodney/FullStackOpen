@@ -3,7 +3,17 @@ const bodyParser = require('body-parser');
 const morgan = require('morgan');
 
 const app = express();
-app.use(morgan('tiny'));
+
+morgan.token('post', (req, res) => {
+  const body = req.body;
+  return JSON.stringify(body);
+});
+
+app.use(
+  morgan(
+    ':method :url :status :res[content-length] - :response-time ms :post'
+  )
+);
 
 app.use(bodyParser.json());
 
@@ -91,13 +101,12 @@ app.post('/api/persons', (req, res) => {
   res.json(person);
 });
 
+const generateId = () => {
+  return parseInt(Math.random() * 1000000000);
+};
+
 const PORT = 3001;
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 })
 ;
-
-const generateId = () => {
-  return parseInt(Math.random() * 1000000000);
-}
-  ;
