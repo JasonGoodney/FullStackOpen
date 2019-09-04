@@ -11,7 +11,7 @@ morgan.token('post', (req, res) => {
 });
 
 const cors = require('cors');
-app.use(cors);
+app.use(cors());
 
 app.use(
   morgan(
