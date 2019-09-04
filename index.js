@@ -10,9 +10,6 @@ morgan.token('post', (req, res) => {
   return JSON.stringify(body);
 });
 
-const cors = require('cors');
-app.use(cors());
-
 app.use(
   morgan(
     ':method :url :status :res[content-length] - :response-time ms :post'
@@ -20,6 +17,9 @@ app.use(
 );
 
 app.use(bodyParser.json());
+
+const cors = require('cors');
+app.use(cors());
 
 let persons = [
   {
