@@ -10,8 +10,8 @@ morgan.token('post', (req, res) => {
   return JSON.stringify(body);
 });
 
-// const cors = require('cors');
-// app.use(cors);
+const cors = require('cors');
+app.use(cors);
 
 app.use(
   morgan(
