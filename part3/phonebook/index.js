@@ -1,4 +1,5 @@
 const express = require('express');
+require('dotenv').config();
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
 
@@ -8,6 +9,9 @@ morgan.token('post', (req, res) => {
   const body = req.body;
   return JSON.stringify(body);
 });
+
+// const cors = require('cors');
+// app.use(cors);
 
 app.use(
   morgan(
@@ -34,6 +38,8 @@ let persons = [
     'id': 9
   }
 ];
+
+app.use(express.static('build'));
 
 app.get('/', (req, res) => {
   res.send('<h1>Phonebook</h1>');
@@ -105,7 +111,7 @@ const generateId = () => {
   return parseInt(Math.random() * 1000000000);
 };
 
-const PORT = 3001;
+const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 })
